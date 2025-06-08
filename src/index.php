@@ -14,11 +14,15 @@ function conectarBD() {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $nota_semestre = $_POST['nota_semestre'];
-    $nota_final = $_POST['nota_final'];
+    
+    $nota_semestre = $_POST['semesterGrade'];
+    $nota_final = $_POST['finalExamGrade'];
+
 
     // Lógica de cálculo
-    $media = ($nota_semestre * 0.6) + ($nota_final * 0.4);
+    //$media = ($nota_semestre * 0.6) + ($nota_final * 0.4);
+    $media = ($nota_semestre + $nota_final * 2) / 3;
+    $media = round($media, 1); // Arredondar para uma casa decimal
     $situacao = ($media >= 6) ? 'Aprovado' : 'Reprovado';
 
     // Inserir no banco
@@ -60,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 
                 <button type="submit">Calcular</button>
             </form>
-            
+            <p><a href="relatorio.php">Ver Relatório de Cálculos</a></p>
             <?php
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 // Obter notas do formulário
